@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Visita Immobile">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>Checklist visita immobile</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#111827;--muted:#64748b;--line:#e2e8f0;--brand:#0f172a;--blue:#2563eb;--ok:#047857;--warn:#b45309;--bad:#b91c1c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.app{max-width:760px;margin:auto;padding-bottom:110px}.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:calc(22px + env(safe-area-inset-top)) 18px 22px;border-radius:0 0 24px 24px}
+.hero small{opacity:.7;text-transform:uppercase;letter-spacing:.08em;font-weight:700}.hero h1{font-size:25px;margin:7px 0}.hero p{color:#cbd5e1;margin:0;font-size:14px;line-height:1.4}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.fact{background:#ffffff14;border:1px solid #ffffff18;border-radius:13px;padding:9px}.fact b{display:block}.fact span{font-size:11px;color:#cbd5e1}
+.sticky{position:sticky;top:0;z-index:20;padding:9px 12px;background:#f5f7fbe8;backdrop-filter:blur(12px)}.progressbox{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px;box-shadow:0 3px 12px #0f172a0d}
+.prow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}.track{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:var(--blue);transition:.2s}
+main{padding:4px 12px}.callout{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:12px;border-radius:14px;font-size:13px;line-height:1.4;margin:8px 0 12px}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:10px 0;box-shadow:0 6px 20px #0f172a0b;overflow:hidden}summary{list-style:none;padding:15px;display:flex;gap:10px;align-items:center;font-weight:800}summary::-webkit-details-marker{display:none}
+.num{width:29px;height:29px;border-radius:9px;background:#e0e7ff;color:#3730a3;display:grid;place-items:center;font-size:13px;flex:0 0 auto}.count{margin-left:auto;color:var(--muted);font-size:12px}.content{padding:0 13px 13px}
+.q{padding:12px 0;border-top:1px solid var(--line)}.q:first-child{border-top:0}.qline{display:flex;gap:10px;align-items:flex-start}.q label{font-size:15px;line-height:1.35;font-weight:650}
+input[type=checkbox]{appearance:none;width:25px;height:25px;border:2px solid #94a3b8;border-radius:8px;background:#fff;flex:0 0 auto;margin:1px 0 0;display:grid;place-items:center}
+input[type=checkbox]:checked{background:var(--ok);border-color:var(--ok)}input[type=checkbox]:checked:after{content:"✓";color:#fff;font-weight:900}
+.priority{display:inline-block;margin-left:5px;padding:2px 7px;background:#fee2e2;color:#991b1b;border-radius:99px;font-size:10px;font-weight:800}
+textarea,input[type=text],input[type=number],select{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:10px 11px;font:inherit;font-size:15px;background:#fff}textarea{min-height:58px;margin-top:8px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field{margin:9px 0}.field label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin:0 0 5px 2px}
+.scoreRow{padding:10px 0;border-top:1px solid var(--line)}.scoreRow:first-child{border-top:0}.scoreTitle{font-size:14px;font-weight:700;margin-bottom:7px}.score{display:flex;gap:5px}.score button{width:36px;height:36px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font-weight:800}.score button.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.decisions{display:grid;gap:7px}.decisions button{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:800}.decisions .active[data-v="INSERIRE"]{background:#dcfce7;color:#166534}.decisions .active[data-v="ATTENDERE"]{background:#fef3c7;color:#92400e}.decisions .active[data-v="SCARTARE"]{background:#fee2e2;color:#991b1b}
+.toolbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:760px;width:100%;display:grid;grid-template-columns:1.1fr 1fr .7fr;gap:7px;padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:#fffffff0;backdrop-filter:blur(14px);border-top:1px solid var(--line)}.toolbar button{border:0;border-radius:12px;padding:12px 7px;font-weight:800}.primary{background:var(--brand);color:#fff}.secondary{background:#e2e8f0}.danger{background:#fff;color:var(--bad);border:1px solid #fecaca!important}
+.tip{font-size:12px;color:var(--muted);line-height:1.4;margin:12px 2px}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr .65fr}.toolbar button{font-size:12px}.fact{padding:8px 6px}.fact b{font-size:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+<small>Checklist investimento immobiliare</small>
+<h1>Via Italo Simon, Pisa</h1>
+<p>Prima visita · Obiettivo: capire se l'immobile merita verifica documentale e possibile proposta.</p>
+<div class="facts"><div class="fact"><b>€110.000</b><span>prezzo richiesto</span></div><div class="fact"><b>~34 m²</b><span>superficie</span></div><div class="fact"><b>~€100/mese</b><span>condominio da verificare</span></div></div>
+</header>
+<div class="sticky"><div class="progressbox"><div class="prow"><span>Avanzamento visita</span><strong id="progressText">0/0 controlli</strong></div><div class="track"><div class="bar" id="progressBar"></div></div></div></div>
+<main>
+<div class="callout"><strong>Regola:</strong> non comunicare il tuo prezzo massimo. Prima raccogli dati, documenti e un canone realistico.</div>
+<div id="sections"></div>
+<details open><summary><span class="num">7</span>Controllo rapido personale <span class="count" id="personalCount">0/10</span></summary><div class="content" id="personal"></div></details>
+<details open><summary><span class="num">8</span>Dati chiave prima di uscire</summary><div class="content"><div class="grid">
+<div class="field"><label>Canone realistico (€ / mese)</label><input id="rent" type="number" inputmode="decimal" placeholder="es. 600"></div>
+<div class="field"><label>Spese condominiali (€ / mese)</label><input id="condo" type="number" inputmode="decimal" placeholder="es. 100"></div>
+<div class="field"><label>Riscaldamento incluso?</label><select id="heating"><option value="">Seleziona</option><option>Sì</option><option>No</option><option>Parziale</option></select></div>
+<div class="field"><label>Straordinarie previste?</label><select id="extra"><option value="">Seleziona</option><option>No</option><option>Sì</option><option>Da verificare</option></select></div>
+<div class="field"><label>Importo straordinarie (€)</label><input id="extraAmount" type="number" inputmode="decimal"></div>
+<div class="field"><label>Provvigione agenzia</label><input id="agencyFee" type="text" placeholder="% o importo IVA compresa"></div>
+<div class="field"><label>Rendita catastale</label><input id="cadastral" type="text"></div>
+<div class="field"><label>Arredi inclusi?</label><select id="furniture"><option value="">Seleziona</option><option>Sì</option><option>No</option><option>Parziale</option></select></div>
+<div class="field"><label>Prezzo trattabile?</label><select id="negotiable"><option value="">Seleziona</option><option>Sì</option><option>No</option><option>Da capire</option></select></div>
+<div class="field"><label>Prezzo che l'agente lascia intendere (€)</label><input id="agentPrice" type="number" inputmode="decimal"></div>
+</div></div></details>
+<details open><summary><span class="num">9</span>Giudizio a caldo</summary><div class="content"><div id="scores"></div><div class="field"><label>Prima impressione</label><div class="decisions" id="decisions"><button data-v="INSERIRE">INSERIRE</button><button data-v="ATTENDERE">ATTENDERE / APPROFONDIRE</button><button data-v="SCARTARE">SCARTARE</button></div></div><div class="field"><label>Motivo principale / note finali</label><textarea id="finalNotes"></textarea></div></div></details>
+<p class="tip"><strong>Su iPhone:</strong> apri questa pagina in Safari → Condividi → <em>Aggiungi alla schermata Home</em>. I dati restano salvati sul dispositivo.</p>
+</main>
+<div class="toolbar"><button class="primary" id="shareBtn">Condividi riepilogo</button><button class="secondary" id="copyBtn">Copia riepilogo</button><button class="danger" id="resetBtn">Azzera</button></div>
+</div>
+<script>
+var sections=[
+["Spese condominiali e riscaldamento",[
+["I 100 € mensili di spese condominiali sono confermati?",1],
+["Che cosa comprendono esattamente: riscaldamento, acqua, gas cucina, pulizia scale, amministratore o altro?",1],
+["Il riscaldamento è centralizzato? Ci sono contabilizzatori individuali sui termosifoni?",1],
+["Le spese indicate sono un preventivo o la media effettiva degli ultimi consuntivi?",0],
+["Ci sono conguagli importanti a fine anno? Quanto è stato pagato complessivamente nell'ultimo esercizio?",1],
+["Ci sono spese straordinarie già deliberate o previste?",1]
+]],
+["Condominio e fabbricato",[
+["Quante unità immobiliari ci sono nel condominio?",0],
+["Ci sono morosità condominiali rilevanti o contenziosi in corso?",1],
+["Sono stati fatti recentemente lavori a tetto, facciate, balconi, scarichi o impianto di riscaldamento?",0],
+["Sono previsti lavori importanti nei prossimi anni?",1],
+["Esistono cantina, soffitta, posto bici o altri spazi comuni utilizzabili?",0]
+]],
+["Appartamento",[
+["Da quanto tempo è in vendita e per quale motivo viene venduto?",0],
+["L'appartamento è libero? Da quando?",1],
+["Quando sono stati rifatti bagno, impianto elettrico, impianto idraulico e infissi?",0],
+["Ci sono stati problemi di infiltrazioni, umidità, muffa o perdite d'acqua?",1],
+["Il climatizzatore è presente e funzionante?",0],
+["La cucina e gli arredi presenti restano? Sono compresi nel prezzo?",0]
+]],
+["Documentazione e regolarità",[
+["Qual è la categoria catastale e qual è la rendita catastale?",1],
+["Posso avere la planimetria catastale prima di formulare un'eventuale proposta?",1],
+["La planimetria catastale corrisponde esattamente allo stato attuale?",1],
+["La conformità urbanistica e catastale è già stata verificata?",1],
+["L'APE è disponibile? Qual è la classe energetica e la data del certificato?",0],
+["Ci sono ipoteche, pignoramenti, successioni, usufrutti o altri vincoli?",1],
+["Posso ricevere gli ultimi due consuntivi condominiali e gli ultimi verbali di assemblea?",1]
+]],
+["Locazione e redditività",[
+["Arredato bene, a quale canone mensile si affitta realisticamente oggi?",1],
+["Il canone indicato è al netto delle spese condominiali?",1],
+["Avete affittato di recente appartamenti simili nello stesso stabile o in Via Italo Simon? A quale canone?",1],
+["Qual è il profilo di inquilino più frequente: personale ospedaliero, specializzandi, studenti, lavoratori o coppie?",0],
+["Quanto tempo impiegate mediamente ad affittare un bilocale di queste dimensioni in zona?",0],
+["Il regolamento condominiale prevede limitazioni particolari alle locazioni?",1],
+["Ci sono problemi ricorrenti con affitti brevi, rumori o turnover elevato nello stabile?",0]
+]],
+["Prezzo e trattativa",[
+["Il prezzo di 110.000 € è trattabile?",1],
+["Il proprietario ha già ricevuto offerte? Se sì, sono state rifiutate e per quale motivo?",0],
+["Qual è la provvigione dell'agenzia, IVA compresa?",1],
+["Ci sono altri costi a carico dell'acquirente oltre a provvigione, notaio e imposte?",0],
+["Il venditore ha esigenze particolari sui tempi di preliminare o rogito?",0]
+]]];
+var personal=["Luminosità naturale buona","Rumore accettabile con finestre aperte e chiuse","Nessun odore o segno di umidità / muffa","Infissi in condizioni accettabili","Bagno senza segni evidenti di infiltrazioni","Spazi realmente utilizzabili nonostante i 34 m²","Balcone in buono stato","Parti comuni del condominio curate","Parcheggio realmente disponibile nelle vicinanze","Zona e accessi adatti a un futuro inquilino"];
+var scoreNames=["Posizione per locazione","Stato appartamento","Qualità condominio","Prezzo / canone potenziale","Rischio costi imprevisti","Rivendibilità futura"];
+var storageKey="visita-italo-simon-v2";
+var state={checks:{},notes:{},fields:{},scores:{},decision:""};
+
+function makeQ(id,text,priority){
+ var w=document.createElement("div");w.className="q";
+ w.innerHTML='<div class="qline"><input type="checkbox" id="'+id+'"><label for="'+id+'">'+text+(priority?' <span class="priority">PRIORITÀ</span>':'')+'</label></div><textarea id="n-'+id+'" placeholder="Appunti / risposta"></textarea>';
+ return w;
+}
+function render(){
+ var host=document.getElementById("sections");
+ sections.forEach(function(sec,si){
+  var d=document.createElement("details");d.open=true;
+  d.innerHTML='<summary><span class="num">'+(si+1)+'</span>'+sec[0]+'<span class="count" id="count'+si+'">0/'+sec[1].length+'</span></summary><div class="content"></div>';
+  sec[1].forEach(function(q,qi){d.querySelector(".content").appendChild(makeQ("s"+si+"q"+qi,q[0],q[1]));});
+  host.appendChild(d);
+ });
+ var ph=document.getElementById("personal");
+ personal.forEach(function(t,i){var w=document.createElement("div");w.className="q";w.innerHTML='<div class="qline"><input type="checkbox" id="p'+i+'"><label for="p'+i+'">'+t+'</label></div>';ph.appendChild(w);});
+ var sh=document.getElementById("scores");
+ scoreNames.forEach(function(t,i){var r=document.createElement("div");r.className="scoreRow";r.innerHTML='<div class="scoreTitle">'+t+'</div><div class="score" data-score="'+i+'">'+[1,2,3,4,5].map(function(n){return '<button type="button" data-n="'+n+'">'+n+'</button>';}).join("")+'</div>';sh.appendChild(r);});
+}
+function updateProgress(){
+ var total=0,done=0;
+ sections.forEach(function(sec,si){var sd=0;sec[1].forEach(function(_,qi){total++;if(document.getElementById("s"+si+"q"+qi).checked){done++;sd++;}});document.getElementById("count"+si).textContent=sd+"/"+sec[1].length;});
+ var pd=0;personal.forEach(function(_,i){total++;if(document.getElementById("p"+i).checked){done++;pd++;}});document.getElementById("personalCount").textContent=pd+"/"+personal.length;
+ document.getElementById("progressText").textContent=done+"/"+total+" controlli";document.getElementById("progressBar").style.width=(total?done/total*100:0)+"%";
+}
+function save(){
+ localStorage.setItem(storageKey,JSON.stringify(state));updateProgress();
+}
+function load(){
+ try{var raw=localStorage.getItem(storageKey);if(raw)state=Object.assign(state,JSON.parse(raw));}catch(e){}
+ Object.keys(state.checks||{}).forEach(function(id){var e=document.getElementById(id);if(e)e.checked=!!state.checks[id];});
+ Object.keys(state.notes||{}).forEach(function(id){var e=document.getElementById(id);if(e)e.value=state.notes[id];});
+ ["rent","condo","heating","extra","extraAmount","agencyFee","cadastral","furniture","negotiable","agentPrice","finalNotes"].forEach(function(id){if(state.fields[id]!=null)document.getElementById(id).value=state.fields[id];});
+ Object.keys(state.scores||{}).forEach(function(i){setScore(i,state.scores[i],false);});
+ setDecision(state.decision,false);updateProgress();
+}
+function bind(){
+ document.querySelectorAll('input[type="checkbox"]').forEach(function(e){e.addEventListener("change",function(){state.checks[e.id]=e.checked;save();});});
+ document.querySelectorAll('textarea[id^="n-"]').forEach(function(e){e.addEventListener("input",function(){state.notes[e.id]=e.value;save();});});
+ ["rent","condo","heating","extra","extraAmount","agencyFee","cadastral","furniture","negotiable","agentPrice","finalNotes"].forEach(function(id){document.getElementById(id).addEventListener("input",function(e){state.fields[id]=e.target.value;save();});});
+ document.querySelectorAll(".score button").forEach(function(b){b.addEventListener("click",function(){setScore(b.parentElement.dataset.score,b.dataset.n,true);});});
+ document.querySelectorAll("#decisions button").forEach(function(b){b.addEventListener("click",function(){setDecision(b.dataset.v,true);});});
+ document.getElementById("copyBtn").onclick=async function(){await navigator.clipboard.writeText(summary());flash("Riepilogo copiato");};
+ document.getElementById("shareBtn").onclick=async function(){var t=summary();if(navigator.share){try{await navigator.share({title:"Visita immobile - Via Italo Simon",text:t});}catch(e){}}else{await navigator.clipboard.writeText(t);flash("Riepilogo copiato");}};
+ document.getElementById("resetBtn").onclick=function(){if(confirm("Azzerare checklist e appunti?")){localStorage.removeItem(storageKey);location.reload();}};
+}
+function setScore(i,v,doSave){
+ state.scores[i]=String(v||"");
+ document.querySelectorAll('.score[data-score="'+i+'"] button').forEach(function(b){b.classList.toggle("active",b.dataset.n==v);});
+ if(doSave)save();
+}
+function setDecision(v,doSave){
+ state.decision=v||"";
+ document.querySelectorAll("#decisions button").forEach(function(b){b.classList.toggle("active",b.dataset.v===v);});
+ if(doSave)save();
+}
+function summary(){
+ var f=state.fields||{},out="VISITA IMMOBILE - VIA ITALO SIMON, PISA\n\n";
+ sections.forEach(function(sec,si){out+=(si+1)+". "+sec[0].toUpperCase()+"\n";sec[1].forEach(function(q,qi){var id="s"+si+"q"+qi,ok=document.getElementById(id).checked?"✓":"□",note=(document.getElementById("n-"+id).value||"").trim();out+=ok+" "+q[0]+(note?"\n   → "+note:"")+"\n";});out+="\n";});
+ out+="DATI CHIAVE\nCanone: "+(f.rent||"-")+" €/mese\nCondominio: "+(f.condo||"-")+" €/mese\nRiscaldamento incluso: "+(f.heating||"-")+"\nStraordinarie: "+(f.extra||"-")+" "+(f.extraAmount?("("+f.extraAmount+" €)"):"")+"\nProvvigione: "+(f.agencyFee||"-")+"\nRendita catastale: "+(f.cadastral||"-")+"\nArredi: "+(f.furniture||"-")+"\nTrattabile: "+(f.negotiable||"-")+"\nIndicazione agente: "+(f.agentPrice||"-")+" €\n\n";
+ scoreNames.forEach(function(t,i){out+=t+": "+(state.scores[i]||"-")+"/5\n";});
+ out+="Decisione: "+(state.decision||"-")+"\nNote finali: "+(f.finalNotes||"-");
+ return out;
+}
+function flash(msg){var b=document.getElementById("copyBtn"),old=b.textContent;b.textContent=msg;setTimeout(function(){b.textContent=old;},1300);}
+render();bind();load();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
+</script>
+</body>
+</html>
