@@ -1,25 +1,34 @@
-# Checklist Visita Immobile
+# Visite Immobiliari
 
-Webapp mobile-first/PWA per usare su iPhone una checklist durante la visita di un immobile da investimento.
+PWA mobile-first per iPhone, Mac e altri dispositivi, pensata per gestire **più visite immobiliari** con una checklist coerente ma adattabile al tipo di immobile e all'obiettivo dell'acquisto.
 
-## Funzioni
-- domande prioritarie all'agente immobiliare
-- checklist personale dell'immobile e del condominio
+## Funzioni principali
+- archivio di più visite sul singolo dispositivo
+- nuova visita, duplicazione ed eliminazione
+- dati generali: indirizzo, comune, tipologia, obiettivo, prezzo, superficie, piano, ascensore, parcheggio, stato occupazionale
+- checklist dinamica per appartamento/condominio oppure casa indipendente/pertinenze
+- sezioni aggiuntive per investimento da locare o acquisto e rivendita
 - appunti per ogni domanda
-- dati chiave su canone, condominio, riscaldamento, provvigione e trattativa
-- valutazione 1–5
-- decisione INSERIRE / ATTENDERE / SCARTARE
-- salvataggio automatico nel browser
+- controllo personale durante la visita
+- dati economici e di trattativa
+- calcolo automatico prezzo/m² e rendimento lordo indicativo
+- valutazioni 1–5 e decisione INSERIRE / ATTENDERE / SCARTARE
 - riepilogo copiabile o condivisibile
+- backup JSON esportabile/importabile tra dispositivi
 - funzionamento offline dopo il primo caricamento
 
-## Pubblicazione con GitHub Pages
-In GitHub aprire **Settings → Pages** e scegliere:
-- Source: **Deploy from a branch**
-- Branch: **main**
-- Folder: **/ (root)**
+## Dati e privacy
+I dati vengono salvati nel browser con localStorage. Il link dell'app è pubblico, ma le visite compilate **non vengono pubblicate né sincronizzate automaticamente**.
 
-Il sito sarà disponibile all'indirizzo:
+## GitHub Pages
+Il sito è pubblicato da branch **main**, cartella **/**.
+
+Indirizzo:
 https://stef630.github.io/checklist-visita-immobile/
 
-Su iPhone: aprire il link in Safari → Condividi → **Aggiungi alla schermata Home**.
+Su iPhone:
+**Safari → Condividi → Aggiungi alla schermata Home**
+
+## Versione precedente
+La versione specifica per Via Italo Simon è conservata nel branch:
+`backup/versione-via-italo-simon`
