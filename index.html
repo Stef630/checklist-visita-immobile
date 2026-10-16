@@ -7,11 +7,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Visite Immobili">
-<link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./styles.css?v=4">
+<link rel="stylesheet" href="./styles.css?v=5">
 <title>Visite Immobiliari</title>
-<meta name="app-version" content="4">
+<meta name="app-version" content="5">
 </head>
 <body>
 <div class="app">
@@ -32,7 +31,7 @@
     <div class="list-head"><h2>Le mie visite</h2><span class="badge">salvate sul dispositivo</span></div>
     <div id="visitList" class="visit-list"></div>
   </div>
-  <div class="callout"><strong>Nota privacy:</strong> le visite e gli appunti restano nel browser del dispositivo. Il link dell'app può essere condiviso, ma i dati non vengono condivisi automaticamente.</div>
+  <div class="callout"><strong>Nota privacy:</strong> il link dell'app è condivisibile, ma le visite compilate restano nel browser del singolo dispositivo.</div>
 </main>
 
 <section id="editor" class="hidden">
@@ -42,6 +41,7 @@
       <div class="track"><div class="bar" id="progressBar"></div></div>
     </div>
   </div>
+
   <main>
     <div class="backline">
       <button class="btn soft small" id="backBtn">← Tutte le visite</button>
@@ -50,7 +50,55 @@
 
     <div class="card">
       <h2>Dati dell'immobile</h2>
-      <div id="metaForm"></div>
+      <div class="field"><label>Nome breve / riferimento</label><input id="m-title" type="text" placeholder="es. Bilocale Cisanello"></div>
+      <div class="grid">
+        <div class="field"><label>Indirizzo</label><input id="m-address" type="text" placeholder="Via, numero"></div>
+        <div class="field"><label>Comune / zona</label><input id="m-city" type="text" placeholder="Comune o quartiere"></div>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Data visita</label><input id="m-date" type="date"></div>
+        <div class="field"><label>Tipologia</label>
+          <select id="m-type">
+            <option>Appartamento</option>
+            <option>Attico / mansarda</option>
+            <option>Casa indipendente</option>
+            <option>Villetta / bifamiliare</option>
+            <option>Terratetto</option>
+            <option>Rustico / casale</option>
+            <option>Nuova costruzione</option>
+            <option>Locale / altro</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Obiettivo</label>
+        <select id="m-purpose">
+          <option>Investimento da locare</option>
+          <option>Acquisto e rivendita</option>
+          <option>Uso personale</option>
+          <option>Uso misto / da definire</option>
+        </select>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Prezzo richiesto (€)</label><input id="m-price" type="number" inputmode="decimal" placeholder="150000"></div>
+        <div class="field"><label>Superficie commerciale (m²)</label><input id="m-sqm" type="number" inputmode="decimal" placeholder="70"></div>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Piano</label><input id="m-floor" type="text" placeholder="es. 2°"></div>
+        <div class="field"><label>Ascensore</label>
+          <select id="m-elevator"><option>Da verificare</option><option>Sì</option><option>No</option><option>Non applicabile</option></select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Posto auto / garage</label><input id="m-parking" type="text" placeholder="es. garage 18 m²"></div>
+        <div class="field"><label>Stato occupazionale</label>
+          <select id="m-occupied"><option>Da verificare</option><option>Libero</option><option>Occupato dal proprietario</option><option>Locato</option><option>Altro</option></select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Agenzia / referente</label><input id="m-agency" type="text"></div>
+        <div class="field"><label>Link annuncio</label><input id="m-link" type="text"></div>
+      </div>
+
       <div class="metrics">
         <div class="metric"><span>Prezzo / m²</span><b id="metricPsm">—</b></div>
         <div class="metric"><span>Rendimento lordo</span><b id="metricYield">—</b></div>
@@ -70,8 +118,19 @@
     <details class="section" open>
       <summary><span class="num">€</span>Dati economici e trattativa</summary>
       <div class="content">
-        <p class="section-note">Compila solo i campi pertinenti. Questi dati alimentano anche i calcoli sintetici in alto.</p>
-        <div id="finance"></div>
+        <div class="grid">
+          <div class="field"><label>Canone realistico (€ / mese)</label><input id="f-rent" type="number" inputmode="decimal"></div>
+          <div class="field"><label>Condominio / spese comuni (€ / mese)</label><input id="f-condo" type="number" inputmode="decimal"></div>
+          <div class="field"><label>Riscaldamento incluso?</label><select id="f-heating"><option>Da verificare</option><option>Sì</option><option>No</option><option>Parziale</option><option>Non applicabile</option></select></div>
+          <div class="field"><label>Straordinarie previste?</label><select id="f-extra"><option>Da verificare</option><option>No</option><option>Sì</option></select></div>
+          <div class="field"><label>Importo straordinarie (€)</label><input id="f-extraAmount" type="number" inputmode="decimal"></div>
+          <div class="field"><label>Lavori iniziali stimati (€)</label><input id="f-renovation" type="number" inputmode="decimal"></div>
+          <div class="field"><label>Provvigione agenzia</label><input id="f-agencyFee" type="text" placeholder="% o importo IVA compresa"></div>
+          <div class="field"><label>Rendita catastale</label><input id="f-cadastral" type="text"></div>
+          <div class="field"><label>Arredi inclusi?</label><select id="f-furniture"><option>Da verificare</option><option>Sì</option><option>No</option><option>Parziale</option></select></div>
+          <div class="field"><label>Prezzo trattabile?</label><select id="f-negotiable"><option>Da verificare</option><option>Sì</option><option>No</option></select></div>
+          <div class="field"><label>Prezzo che l'agente lascia intendere (€)</label><input id="f-agentPrice" type="number" inputmode="decimal"></div>
+        </div>
       </div>
     </details>
 
@@ -87,14 +146,9 @@
             <button data-v="SCARTARE">SCARTARE</button>
           </div>
         </div>
-        <div class="field">
-          <label>Motivo principale / note finali</label>
-          <textarea id="finalNotes" placeholder="Sintesi della visita, rischi, opportunità, documenti mancanti..."></textarea>
-        </div>
+        <div class="field"><label>Motivo principale / note finali</label><textarea id="finalNotes"></textarea></div>
       </div>
     </details>
-
-    <p class="tip"><strong>iPhone:</strong> Safari → Condividi → <em>Aggiungi alla schermata Home</em>. Per spostare tutte le visite su un altro dispositivo usa <strong>Esporta backup</strong> e <strong>Importa backup</strong>.</p>
   </main>
 
   <div class="bottom">
@@ -104,6 +158,273 @@
   </div>
 </section>
 </div>
-<script src="./app.js?v=4"></script>
+
+<script>
+(function(){
+"use strict";
+
+var KEY="visite-immobili-v5";
+var db={visits:[]};
+var currentId=null;
+
+var common=[
+ {id:"stato",title:"Stato dell'immobile",qs:[
+  "Ci sono segni di umidità, muffa, infiltrazioni o perdite d'acqua?",
+  "Infissi, persiane/tapparelle e vetri sono in buono stato?",
+  "Impianto elettrico: anno, conformità, quadro e potenza disponibile?",
+  "Impianto idraulico: anno, stato e presenza di perdite o cali di pressione?",
+  "Bagni e cucina richiedono lavori immediati?",
+  "È presente climatizzazione? Età e stato degli apparecchi?",
+  "Quali lavori sono stati eseguiti negli ultimi 10 anni?",
+  "Ci sono difetti noti o problemi ricorrenti dichiarati dal proprietario?"
+ ]},
+ {id:"documenti",title:"Documentazione e regolarità",qs:[
+  "Qual è la categoria e la rendita catastale?",
+  "Posso ricevere la planimetria catastale prima di una proposta?",
+  "La planimetria corrisponde allo stato reale dell'immobile?",
+  "La conformità urbanistica e catastale è già stata verificata da un tecnico?",
+  "L'APE è disponibile e in corso di validità?",
+  "Ci sono ipoteche, pignoramenti, usufrutti, successioni o altri vincoli?",
+  "Esistono pratiche edilizie aperte, sanatorie, condoni o difformità note?",
+  "Gli impianti hanno dichiarazioni di conformità o rispondenza?"
+ ]},
+ {id:"costi",title:"Costi e gestione",qs:[
+  "Quali sono i costi ordinari annuali oltre alle utenze?",
+  "Sono previsti interventi importanti o manutenzioni straordinarie?",
+  "Quali sono IMU e altre imposte locali indicative per questo immobile?",
+  "Ci sono servitù, passi, strade private o costi condivisi con terzi?",
+  "Ci sono assicurazioni, consorzi o altri oneri ricorrenti?"
+ ]},
+ {id:"zona",title:"Zona e rivendibilità",qs:[
+  "Quali sono i principali punti di forza e debolezza della microzona?",
+  "Parcheggio, accessi e servizi sono adeguati al profilo dell'acquirente/inquilino?",
+  "Ci sono fonti di rumore, traffico, attività o criticità nelle vicinanze?",
+  "Qual è il tempo medio di vendita di immobili simili in zona?",
+  "Ci sono progetti urbanistici o infrastrutturali che possono influire sul valore?"
+ ]},
+ {id:"prezzo",title:"Prezzo e trattativa",qs:[
+  "Da quanto tempo è in vendita e perché viene venduto?",
+  "Il prezzo richiesto è trattabile?",
+  "Il proprietario ha già ricevuto offerte? Con quale esito?",
+  "Qual è la provvigione dell'agenzia, IVA compresa?",
+  "Ci sono altri costi a carico dell'acquirente?",
+  "Il venditore ha esigenze particolari sui tempi di preliminare o rogito?"
+ ]}
+];
+
+var condo={id:"condominio",title:"Condominio e parti comuni",qs:[
+ "Qual è la spesa condominiale ordinaria e cosa comprende?",
+ "Riscaldamento e acqua sono centralizzati? Come vengono contabilizzati?",
+ "Ci sono morosità rilevanti o contenziosi nel condominio?",
+ "Ci sono lavori straordinari già deliberati o previsti?",
+ "Posso ricevere gli ultimi due consuntivi e gli ultimi verbali di assemblea?",
+ "Stato di tetto, facciate, balconi, ascensore e impianti comuni?",
+ "Il regolamento condominiale limita locazioni, animali o altri usi?"
+]};
+
+var independent={id:"indipendente",title:"Esterni, tetto e pertinenze",qs:[
+ "Tetto e grondaie: quando sono stati rifatti o manutenzionati?",
+ "Facciate, muri perimetrali e fondazioni presentano crepe o infiltrazioni?",
+ "Terreno, giardino, recinzioni e confini corrispondono alle mappe?",
+ "Ci sono pozzi, fosse biologiche, depuratori o impianti autonomi da mantenere?",
+ "Accessi carrabili/pedonali e servitù sono regolari?",
+ "Garage, cantine, annessi e pertinenze sono catastalmente regolari?"
+]};
+
+var investment={id:"locazione",title:"Locazione e redditività",qs:[
+ "A quale canone mensile realistico si può locare oggi l'immobile?",
+ "Il canone stimato è al netto delle spese accessorie?",
+ "Avete locato recentemente immobili realmente comparabili? A quale canone?",
+ "Qual è il profilo di inquilino più frequente in questa zona?",
+ "Quanto tempo serve mediamente per trovare un inquilino?",
+ "Quali lavori o arredi aumenterebbero maggiormente il canone o la domanda?",
+ "Ci sono limitazioni alle locazioni brevi o transitorie?"
+]};
+
+var resale={id:"rivendita",title:"Potenziale rivendita / lavori",qs:[
+ "Quali lavori sono realmente necessari prima della rivendita?",
+ "Ci sono preventivi o stime recenti per i lavori principali?",
+ "Quale prezzo di vendita avrebbe l'immobile dopo una ristrutturazione ragionevole?",
+ "Quali immobili ristrutturati comparabili sono stati venduti recentemente?",
+ "Ci sono elementi che possono allungare i tempi di rivendita?"
+]};
+
+var personalChecks=[
+ "Luminosità naturale adeguata","Rumore accettabile","Nessun odore o segno evidente di umidità",
+ "Spazi e distribuzione realmente funzionali","Infissi in condizioni accettabili","Bagni senza criticità evidenti",
+ "Accesso e parcheggio pratici","Contesto esterno e vicinato convincenti","Parti comuni / esterni curati",
+ "Immobile coerente con il prezzo richiesto"
+];
+
+var scoreNames=["Posizione","Stato immobile","Qualità fabbricato / pertinenze","Prezzo rispetto al mercato","Costi e rischi nascosti","Rivendibilità futura"];
+var metaIds=["title","address","city","date","type","purpose","price","sqm","floor","elevator","parking","occupied","agency","link"];
+var finIds=["rent","condo","heating","extra","extraAmount","renovation","agencyFee","cadastral","furniture","negotiable","agentPrice"];
+
+function $(id){return document.getElementById(id);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function isoToday(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function blankVisit(){return {id:uid(),updatedAt:Date.now(),meta:{date:isoToday(),type:"Appartamento",purpose:"Investimento da locare"},finance:{heating:"Da verificare",extra:"Da verificare",furniture:"Da verificare",negotiable:"Da verificare"},checks:{},notes:{},personal:{},scores:{},decision:"",finalNotes:""};}
+function load(){try{var raw=localStorage.getItem(KEY);if(raw){var x=JSON.parse(raw);if(x&&Array.isArray(x.visits))db=x;}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
+function visit(){for(var i=0;i<db.visits.length;i++)if(db.visits[i].id===currentId)return db.visits[i];return null;}
+function esc(s){return String(s||"").replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];});}
+function euro(n){var x=Number(n);return x>0?new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(x):"—";}
+function sectionsFor(v){
+ var a=[common[0]];
+ if(["Appartamento","Attico / mansarda","Nuova costruzione"].indexOf(v.meta.type)>=0)a.push(condo);else a.push(independent);
+ a.push(common[1],common[2],common[3]);
+ if(v.meta.purpose==="Investimento da locare"||v.meta.purpose==="Uso misto / da definire")a.push(investment);
+ if(v.meta.purpose==="Acquisto e rivendita"||v.meta.purpose==="Uso misto / da definire")a.push(resale);
+ a.push(common[4]);return a;
+}
+function showDashboard(){
+ currentId=null;$("editor").classList.add("hidden");$("dashboard").classList.remove("hidden");renderList();
+}
+function renderList(){
+ var host=$("visitList");
+ if(!db.visits.length){host.innerHTML='<div class="empty">Nessuna visita salvata.<br>Premi <strong>+ Nuova visita</strong> per iniziare.</div>';return;}
+ var arr=db.visits.slice().sort(function(a,b){return b.updatedAt-a.updatedAt;});
+ host.innerHTML=arr.map(function(v){
+  var t=v.meta.title||v.meta.address||"Immobile senza nome";
+  var meta=[v.meta.type,v.meta.city,v.meta.price?euro(v.meta.price):"",v.meta.sqm?(v.meta.sqm+" m²"):""].filter(Boolean).join(" · ");
+  var badge=v.decision==="INSERIRE"?"ok":v.decision==="ATTENDERE"?"warn":v.decision==="SCARTARE"?"bad":"";
+  var label=v.decision||"DA VALUTARE";
+  return '<div class="visit-item"><div class="visit-item-top"><div><div class="visit-title">'+esc(t)+'</div><div class="visit-meta">'+esc(meta)+'</div></div><span class="badge '+badge+'">'+label+'</span></div><div class="item-actions"><button class="btn small dark" data-open="'+v.id+'">Apri</button><button class="btn small soft" data-copy="'+v.id+'">Duplica</button><button class="btn small danger" data-del="'+v.id+'">Elimina</button></div></div>';
+ }).join("");
+ host.querySelectorAll("[data-open]").forEach(function(b){b.onclick=function(){openVisit(b.dataset.open);};});
+ host.querySelectorAll("[data-copy]").forEach(function(b){b.onclick=function(){duplicateVisit(b.dataset.copy);};});
+ host.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){deleteVisit(b.dataset.del);};});
+}
+function newVisit(){var v=blankVisit();db.visits.push(v);save();openVisit(v.id);}
+function duplicateVisit(id){var src=db.visits.find(function(x){return x.id===id;});if(!src)return;var v=JSON.parse(JSON.stringify(src));v.id=uid();v.updatedAt=Date.now();v.meta.title=(src.meta.title||"Immobile")+" - copia";db.visits.push(v);save();renderList();}
+function deleteVisit(id){if(!confirm("Eliminare questa visita e tutti gli appunti?"))return;db.visits=db.visits.filter(function(x){return x.id!==id;});save();renderList();}
+function openVisit(id){currentId=id;$("dashboard").classList.add("hidden");$("editor").classList.remove("hidden");fillEditor();}
+function fillEditor(){
+ var v=visit();if(!v){showDashboard();return;}
+ $("editorTitle").textContent=v.meta.title||v.meta.address||"Nuova visita";
+ metaIds.forEach(function(k){var e=$("m-"+k);if(e)e.value=v.meta[k]||"";});
+ finIds.forEach(function(k){var e=$("f-"+k);if(e)e.value=v.finance[k]||"";});
+ $("finalNotes").value=v.finalNotes||"";
+ renderSections();renderPersonal();renderScores();updateMetrics();updateProgress();
+}
+function bindStatic(){
+ metaIds.forEach(function(k){
+  var e=$("m-"+k);if(!e)return;
+  e.addEventListener("input",function(){
+   var v=visit();if(!v)return;v.meta[k]=e.value;v.updatedAt=Date.now();save();
+   if(k==="type"||k==="purpose"){renderSections();updateProgress();}
+   if(k==="title"||k==="address")$("editorTitle").textContent=v.meta.title||v.meta.address||"Nuova visita";
+   updateMetrics();
+  });
+ });
+ finIds.forEach(function(k){
+  var e=$("f-"+k);if(!e)return;
+  e.addEventListener("input",function(){var v=visit();if(!v)return;v.finance[k]=e.value;v.updatedAt=Date.now();save();updateMetrics();});
+ });
+ $("finalNotes").addEventListener("input",function(){var v=visit();if(v){v.finalNotes=this.value;v.updatedAt=Date.now();save();}});
+}
+function qKey(sec,i){return sec.id+"-"+i;}
+function renderSections(){
+ var v=visit(),host=$("sections");if(!v)return;host.innerHTML="";
+ var secs=sectionsFor(v);
+ secs.forEach(function(sec,si){
+  var d=document.createElement("details");d.className="section";d.open=true;
+  d.innerHTML='<summary><span class="num">'+(si+1)+'</span>'+esc(sec.title)+'<span class="count" id="c-'+sec.id+'">0/'+sec.qs.length+'</span></summary><div class="content"></div>';
+  var c=d.querySelector(".content");
+  sec.qs.forEach(function(q,qi){
+   var key=qKey(sec,qi),w=document.createElement("div");w.className="q";
+   var priority=(qi<2||sec.id==="documenti"&&qi<4||sec.id==="condominio"&&qi<5)?'<span class="priority">PRIORITÀ</span>':"";
+   w.innerHTML='<div class="qline"><input type="checkbox" id="q-'+key+'"><label class="qtext" for="q-'+key+'">'+esc(q)+' '+priority+'</label></div><textarea id="n-'+key+'" placeholder="Appunti / risposta"></textarea>';
+   c.appendChild(w);
+   var cb=w.querySelector("input"),ta=w.querySelector("textarea");
+   cb.checked=!!v.checks[key];ta.value=v.notes[key]||"";
+   cb.onchange=function(){v.checks[key]=cb.checked;v.updatedAt=Date.now();save();updateProgress();};
+   ta.oninput=function(){v.notes[key]=ta.value;v.updatedAt=Date.now();save();};
+  });
+  host.appendChild(d);
+ });
+}
+function renderPersonal(){
+ var v=visit(),host=$("personal");host.innerHTML="";
+ personalChecks.forEach(function(t,i){
+  var key="p"+i,w=document.createElement("div");w.className="q";
+  w.innerHTML='<div class="qline"><input type="checkbox" id="'+key+'"><label class="qtext" for="'+key+'">'+esc(t)+'</label></div>';
+  host.appendChild(w);var cb=w.querySelector("input");cb.checked=!!v.personal[key];
+  cb.onchange=function(){v.personal[key]=cb.checked;v.updatedAt=Date.now();save();updateProgress();};
+ });
+}
+function renderScores(){
+ var v=visit(),host=$("scores");host.innerHTML="";
+ scoreNames.forEach(function(t,i){
+  var row=document.createElement("div");row.className="scoreRow";row.innerHTML='<div class="scoreTitle">'+esc(t)+'</div><div class="score"></div>';
+  var box=row.querySelector(".score");
+  [1,2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n;if(String(v.scores[i])===String(n))b.classList.add("active");b.onclick=function(){v.scores[i]=n;v.updatedAt=Date.now();save();renderScores();};box.appendChild(b);});
+  host.appendChild(row);
+ });
+ document.querySelectorAll("#decisions button").forEach(function(b){
+  b.classList.toggle("active",b.dataset.v===v.decision);
+  b.onclick=function(){v.decision=b.dataset.v;v.updatedAt=Date.now();save();renderScores();};
+ });
+}
+function updateMetrics(){
+ var v=visit();if(!v)return;var p=Number(v.meta.price||0),s=Number(v.meta.sqm||0),r=Number(v.finance.rent||0),extra=Number(v.finance.extraAmount||0)+Number(v.finance.renovation||0);
+ $("metricPsm").textContent=p>0&&s>0?Math.round(p/s).toLocaleString("it-IT")+" €/m²":"—";
+ $("metricYield").textContent=p>0&&r>0?(r*12/p*100).toFixed(2).replace(".",",")+"%":"—";
+ $("metricBase").textContent=p>0?euro(p+extra):"—";
+}
+function updateProgress(){
+ var v=visit();if(!v)return;var total=personalChecks.length,done=0;
+ var secs=sectionsFor(v);
+ secs.forEach(function(sec){
+  var sd=0;total+=sec.qs.length;
+  sec.qs.forEach(function(q,qi){if(v.checks[qKey(sec,qi)]){done++;sd++;}});
+  var c=$("c-"+sec.id);if(c)c.textContent=sd+"/"+sec.qs.length;
+ });
+ var pd=0;personalChecks.forEach(function(t,i){if(v.personal["p"+i]){done++;pd++;}});
+ $("personalCount").textContent=pd+"/"+personalChecks.length;
+ $("progressText").textContent=done+"/"+total+" controlli";
+ $("progressBar").style.width=(total?done/total*100:0)+"%";
+}
+function summary(){
+ var v=visit();if(!v)return"";var out="VISITA IMMOBILE\n";
+ out+=(v.meta.title||v.meta.address||"Immobile")+"\n";
+ out+=[v.meta.address,v.meta.city,v.meta.type,v.meta.purpose].filter(Boolean).join(" · ")+"\n";
+ out+="Prezzo: "+euro(v.meta.price)+" | Superficie: "+(v.meta.sqm||"-")+" m²\n\n";
+ sectionsFor(v).forEach(function(sec){
+  out+=sec.title.toUpperCase()+"\n";
+  sec.qs.forEach(function(q,qi){var k=qKey(sec,qi);out+=(v.checks[k]?"✓ ":"□ ")+q+(v.notes[k]?"\n   → "+v.notes[k]:"")+"\n";});out+="\n";
+ });
+ out+="DATI ECONOMICI\nCanone: "+(v.finance.rent||"-")+" €/mese\nCondominio: "+(v.finance.condo||"-")+" €/mese\nStraordinarie: "+(v.finance.extra||"-")+"\nLavori iniziali: "+(v.finance.renovation||"-")+" €\nProvvigione: "+(v.finance.agencyFee||"-")+"\nRendita catastale: "+(v.finance.cadastral||"-")+"\nTrattabile: "+(v.finance.negotiable||"-")+"\nIndicazione agente: "+(v.finance.agentPrice||"-")+" €\n\n";
+ scoreNames.forEach(function(t,i){out+=t+": "+(v.scores[i]||"-")+"/5\n";});
+ out+="Decisione: "+(v.decision||"-")+"\nNote finali: "+(v.finalNotes||"-");
+ return out;
+}
+function exportBackup(){
+ var a=document.createElement("a"),blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});a.href=URL.createObjectURL(blob);a.download="visite-immobiliari-backup.json";a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+}
+function importBackup(ev){
+ var f=ev.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var x=JSON.parse(rd.result);if(!x||!Array.isArray(x.visits))throw 0;if(confirm("Importare il backup sostituendo le visite presenti?")){db=x;save();showDashboard();}}catch(e){alert("Backup non valido.");}};rd.readAsText(f);ev.target.value="";
+}
+function clearCurrent(){
+ var v=visit();if(!v)return;if(!confirm("Azzerare checklist, appunti e giudizi mantenendo i dati dell'immobile?"))return;v.checks={};v.notes={};v.personal={};v.scores={};v.decision="";v.finalNotes="";v.updatedAt=Date.now();save();fillEditor();
+}
+function clearOldCaches(){
+ if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});}).catch(function(){});}
+ if(window.caches){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});}).catch(function(){});}
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+ clearOldCaches();load();bindStatic();showDashboard();
+ $("newBtn").onclick=newVisit;
+ $("backBtn").onclick=showDashboard;
+ $("exportBtn").onclick=exportBackup;
+ $("importBtn").onclick=function(){$("importFile").click();};
+ $("importFile").onchange=importBackup;
+ $("resetBtn").onclick=clearCurrent;
+ $("copyBtn").onclick=function(){var t=summary();if(!t)return;navigator.clipboard.writeText(t).then(function(){var b=$("copyBtn"),old=b.textContent;b.textContent="Copiato";setTimeout(function(){b.textContent=old;},1200);});};
+ $("shareBtn").onclick=function(){var t=summary();if(!t)return;if(navigator.share){navigator.share({title:"Visita immobile",text:t}).catch(function(){});}else{navigator.clipboard.writeText(t);}};
+});
+})();
+</script>
 </body>
 </html>
